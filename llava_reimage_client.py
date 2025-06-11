@@ -42,7 +42,7 @@ def main(url):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print(f"Usage: python {os.path.basename(__file__)} <URL>")
+        print(f"Usage: python {os.path.basename(__file__)} <IMAGE_URL>")
     else:
         url = sys.argv[1]
         main(url)
