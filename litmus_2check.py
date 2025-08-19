@@ -1,7 +1,7 @@
 import hashlib
  
 # ====== INPUT VALUES FROM AI ======
-rand_num = 123456789
+random_number = 123456789
 epoch_time = 123456789
 user = "placeholder"
 cwd = "placeholder"
@@ -9,7 +9,7 @@ entropy_bytes = "placeholder"
 fingerprint = "placeholder"
 
 # ====== RECOMPUTE FINGERPRINT ======
-combined = f"{rand_num}-{epoch_time}-{user}-{cwd}-{entropy_bytes}"
+combined = f"{random_number}-{epoch_time}-{user}-{cwd}-{entropy_bytes}"
 expected_fingerprint = hashlib.sha256(combined.encode()).hexdigest()
  
 # ====== CHECK ======
