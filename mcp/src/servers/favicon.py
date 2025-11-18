@@ -140,15 +140,18 @@ def fetch_favicon_url_and_bytes(base_url: str) -> tuple[str | None, bytes | None
     Discover favicon URL via HTML and fallbacks, then fetch bytes.
     Returns (favicon_url, content) or (None, None).
     """
-    # 1) Fetch homepage HTML
+    # 1) Fetch homepage HTML (follows 301 redirects)
     try:
         html_resp = requests.get(base_url, headers=DEFAULT_HEADERS, allow_redirects=True, timeout=8.0)
         html_text = html_resp.text if html_resp.status_code == 200 else ""
+        # Use final URL after redirects for relative link resolution
+        final_base_url = html_resp.url
     except Exception:
         html_text = ""
+        final_base_url = base_url
 
     # 2) Parse <link> icons
-    for icon_url in discover_favicon_links(html_text, base_url):
+    for icon_url in discover_favicon_links(html_text, final_base_url):
         content = try_fetch_binary(icon_url)
         if content:
             return icon_url, content
@@ -200,4 +203,3 @@ def get_favicon_hash(url: str) -> dict:
 if __name__ == "__main__":
     print(f"Starting favicon-hasher MCP server at PORT {PORT}...")
     mcp.run()
-
